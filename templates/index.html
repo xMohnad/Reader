@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapters Fetcher</title>
+    {% assets "css_all" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+</head>
+<body>
+    <div id="content"> 
+        <div id="allbut" class="btns mt-3">       
+            <div id="more-options">
+                <img id="options" src="{{ url_for('static', filename='images/more.png') }}" onclick="optionsDialog()">
+            </div>
+            <div id="Buttons">
+                <img id="scroll-top" src="{{ url_for('static', filename='images/to-top.png') }}" onclick="scrollToTop()">
+                <img id="scroll-down" src="{{ url_for('static', filename='images/to-down.png') }}" onclick="scrollToDown()">
+                <img id="FullScreen" src="{{ url_for('static', filename='images/full-screen.png') }}" onclick="toggleFullScreen()">
+                <img id="floatingButton" src="{{ url_for('static', filename='images/link-add.png') }}" onclick="toggleDialog()">
+            </div>
+        </div> 
+        <div id="floatingDialog">
+            <form id="fetchForm" method="POST" action="/">
+                <div class="form-group">
+                    <label for="chapter_link" style="color: #858585;">Enter chapter URL:</label>
+                    <input type="text" class="form-control" id="chapter_link" name="chapter_link" placeholder="Enter URL" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Fetch</button>
+                <button type="button" class="btn btn-secondary float-right" onclick="closeDialog()">Close</button>
+            </form>
+        </div>
+        <div class="content">
+            <div class="name">
+                <hi class="title"> {{ title }} </hi>
+            </div>
+            <div class="manga-list">
+                <div class="image_list" id="readerarea">
+                    {% for image_url in image_urls %}
+                        <div class="page-break" >
+                            <img src="{{ image_url }}" alt="Page {{ loop.index }}" class="manga-page-image">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div id="nextprev">
+            <div class="prev">
+                {% if prev_chapter_link %}
+                <form method="POST" action="/prev">
+                    <input type="hidden" name="prev_chapter" value="{{ prev_chapter_link }}">
+                    <button type="submit" class="btn btn-primary">الفصل السابق</button>
+                </form>
+                {% endif %}
+            </div>
+            <div class="next">
+                {% if next_chapter_link %}
+                <form method="POST" action="/next">
+                    <input type="hidden" name="next_chapter" value="{{ next_chapter_link }}">
+                    <button type="submit" class="btn btn-primary">الفصل التالي</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% assets "js_all" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    </div>
+</body>
+</html>

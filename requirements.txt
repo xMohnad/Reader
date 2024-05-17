@@ -1,0 +1,7 @@
+Flask-Assets
+Flask
+requests 
+json5
+beautifulsoup4
+fake-useragent
+gunicorn

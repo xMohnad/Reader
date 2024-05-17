@@ -1,6 +1,7 @@
 from .mangapro import manga_pro
 from .Teamx import teamx
 from .Mangalek import mangalek
+from ._3asq import _3asq
 
 def checkselection(url):
     if "mangapro" in url and url is not None:
@@ -12,6 +13,9 @@ def checkselection(url):
     elif "lekmanga" in url and url is not None:
         json_file = "src/seve_data/data/mangalek.json"
         image_urls, title, next_chapter_link, prev_chapter_link = mangalek(url, json_file)
+    elif "3asq" in url and url is not None:
+        json_file = "src/seve_data/data/3asq.json"
+        image_urls, title, next_chapter_link, prev_chapter_link = _3asq(url, json_file)
     else:
         title = None
         return None, title, None, None

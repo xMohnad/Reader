@@ -6,8 +6,9 @@ from .seve_data.tojson import create_or_load_json, conductor
 def mangalek(url, json_file):
     manga_data = create_or_load_json(json_file)
     if url in manga_data:
-        return manga_data[url]['image_urls'], manga_data[url]['title'], manga_data[url]['next_chapter'], manga_data[url]['prev_chapter']
-
+        if manga_data[url]['next_chapter'] is not None and manga_data[url]['next_chapter']:
+            return manga_data[url]['image_urls'], manga_data[url]['title'], manga_data[url]['next_chapter'], manga_data[url]['prev_chapter']
+    
     soup = pyparse(url)
     main_div = soup.find("div", class_="container")
     

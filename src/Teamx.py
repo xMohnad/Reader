@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import re
 from .seve_data.tojson import create_or_load_json, conductor
 
-# https://www.teamxnovel.com/series/BATE/1
+# https://www.teamxnovel.com
 def get_title(url):
     url_home = re.match(r'(https?://[^/]+/[^/]+/[^/]+)/\d+(\.\d+)?', url).group(1)
     soup = pyparse(url_home)
@@ -16,8 +16,9 @@ def teamx(url, json_file):
     
     manga_data = create_or_load_json(json_file)
     if url in manga_data:
-        return manga_data[url]['image_urls'], manga_data[url]['title'], manga_data[url]['next_chapter'], manga_data[url]['prev_chapter']
-        
+        if manga_data[url]['next_chapter'] is not None and manga_data[url]['next_chapter']:
+            return manga_data[url]['image_urls'], manga_data[url]['title'], manga_data[url]['next_chapter'], manga_data[url]['prev_chapter']
+            
     soup = pyparse(url)
     reader_area = soup.find_all('div', class_="page-break")
     

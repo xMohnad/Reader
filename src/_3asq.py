@@ -1,6 +1,7 @@
 from .PyProbe.PyParse import pyparse 
 from bs4 import BeautifulSoup
 from .seve_data.tojson import create_or_load_json, conductor
+
 # https://3asq.org/manga
 def _3asq(url, json_file):
     

@@ -8,9 +8,8 @@ def manga_pro(url, json_file):
     manga_data = create_or_load_json(json_file)
     if url in manga_data:
         if manga_data[url]['next_chapter'] is not None and manga_data[url]['next_chapter']:
-            print("True")
             return manga_data[url]['image_urls'], manga_data[url]['title'], manga_data[url]['next_chapter'], manga_data[url]['prev_chapter']
-
+        
     image_urls = []
     soup = pyparse(url)
     reader_area = soup.find('div', id="readerarea")

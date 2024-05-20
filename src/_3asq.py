@@ -1,6 +1,6 @@
-from .PyProbe.PyParse import pyparse 
+from .PyProbe.PyParse import pyparse, parse_content
 from bs4 import BeautifulSoup
-from .seve_data.tojson import create_or_load_json, conductor
+from data.tojson import create_or_load_json, conductor
 
 # https://3asq.org/manga
 def _3asq(url, json_file):
@@ -10,7 +10,12 @@ def _3asq(url, json_file):
         if manga_data[url]['next_chapter'] is not None and manga_data[url]['next_chapter']:
             return manga_data[url]['image_urls'], manga_data[url]['title'], manga_data[url]['next_chapter'], manga_data[url]['prev_chapter']
         
-    soup = pyparse(url)
+    result = pyparse(url)
+    if "error" not in result:
+        soup = parse_content(result)
+    else:
+        return result
+
     main_div = soup.find("div", class_="main-col")
     
     img_tags = main_div.find_all("img", class_="wp-manga-chapter-img")

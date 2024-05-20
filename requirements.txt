@@ -1,7 +1,8 @@
-Flask-Assets
 Flask
-requests 
+Flask-Assets
+gunicorn
+requests
 json5
 beautifulsoup4
 fake-useragent
-gunicorn
+python-dotenv

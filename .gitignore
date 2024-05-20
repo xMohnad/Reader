@@ -1,4 +1,5 @@
-src/seve_data/data/*.json
+data/chapters/*.json
 update.py
 __pycache__/
-
+.env
+.vercel

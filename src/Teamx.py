@@ -1,12 +1,18 @@
-from .PyProbe.PyParse import pyparse 
+from .PyProbe.PyParse import pyparse, parse_content 
 from bs4 import BeautifulSoup
 import re
-from .seve_data.tojson import create_or_load_json, conductor
+from data.tojson import create_or_load_json, conductor
 
 # https://www.teamxnovel.com
 def get_title(url):
     url_home = re.match(r'(https?://[^/]+/[^/]+/[^/]+)/\d+(\.\d+)?', url).group(1)
-    soup = pyparse(url_home)
+    
+    result = pyparse(url_home)
+    if "error" not in result:
+        soup = parse_content(result)
+    else:
+        return result
+    
     mangnama = soup.find('div', class_='author-info-title').find('h6').text.strip()
     chapter_number = re.search(r'(?<=\/)\d+(\.\d+)?', url).group()
     title = f"{mangnama} {chapter_number}"
@@ -18,8 +24,13 @@ def teamx(url, json_file):
     if url in manga_data:
         if manga_data[url]['next_chapter'] is not None and manga_data[url]['next_chapter']:
             return manga_data[url]['image_urls'], manga_data[url]['title'], manga_data[url]['next_chapter'], manga_data[url]['prev_chapter']
-            
-    soup = pyparse(url)
+           
+    result = pyparse(url)
+    if "error" not in result:
+        soup = parse_content(result)
+    else:
+        return result
+        
     reader_area = soup.find_all('div', class_="page-break")
     
     if reader_area:
